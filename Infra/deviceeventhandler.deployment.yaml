@@ -1,0 +1,20 @@
+# deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deviceeventhandler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: deviceeventhandler
+  template:
+    metadata:
+      labels:
+        app: deviceeventhandler
+    spec:
+      containers:
+        - name: deviceeventhandler
+          image: jmsalonen/deviceeventhandler:latest
+          ports:
+            - containerPort: 5002

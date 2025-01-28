@@ -1,0 +1,36 @@
+# Ignore common development files
+.git
+.gitignore
+.dockerignore
+.vscode
+.vs
+
+# Ignore build outputs
+bin
+obj
+[Bb]uild
+[Oo]bj
+
+# Ignore NuGet packages
+**/packages/
+**/bin/
+**/obj/
+
+# Ignore logs and temp files
+*.log
+*.tmp
+*.bak
+*.cache
+*.pid
+*.lock
+
+# Ignore OS generated files
+.DS_Store
+Thumbs.db
+
+# Ignore Docker Compose files
+docker-compose.yml
+docker-compose.override.yml
+
+# Ignore Dockerfiles
+Dockerfile*

@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: appgw
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: appgw
+  template:
+    metadata:
+      labels:
+        app: appgw
+    spec:
+      containers:
+        - name: nginx
+          image: jmsalonen/appgw:latest
+          ports:
+            - containerPort: 80

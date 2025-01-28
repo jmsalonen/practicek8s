@@ -1,0 +1,13 @@
+# service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: deviceeventhandler
+spec:
+  selector:
+    app: deviceeventhandler
+  ports:
+    - name: http
+      port: 5002
+      targetPort: 5002
+  type: ClusterIP
