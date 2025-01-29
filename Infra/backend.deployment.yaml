@@ -13,8 +13,38 @@ spec:
       labels:
         app: backend
     spec:
+      nodeSelector:
+        "kubernetes.io/os": linux
       containers:
         - name: backend
           image: jmsalonen/backend:latest
           ports:
             - containerPort: 5001
+          resources:
+            requests:
+              cpu: 1m
+              memory: 200Mi
+            limits:
+              cpu: 1000m
+              memory: 512Mi
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 5001
+            failureThreshold: 3
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5001
+            failureThreshold: 3
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5001
+            failureThreshold: 5
+            initialDelaySeconds: 3
+            periodSeconds: 3

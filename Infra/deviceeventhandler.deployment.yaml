@@ -13,8 +13,43 @@ spec:
       labels:
         app: deviceeventhandler
     spec:
+      nodeSelector:
+        "kubernetes.io/os": linux
       containers:
         - name: deviceeventhandler
           image: jmsalonen/deviceeventhandler:latest
           ports:
             - containerPort: 5002
+          # env:
+          #   - name: key1
+          #     value: "value"
+          #   - name: key2
+          #     value: "value"
+          resources:
+            requests:
+              cpu: 1m
+              memory: 200Mi
+            limits:
+              cpu: 1000m
+              memory: 512Mi
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 5002
+            failureThreshold: 3
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5002
+            failureThreshold: 3
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5002
+            failureThreshold: 5
+            initialDelaySeconds: 3
+            periodSeconds: 3
