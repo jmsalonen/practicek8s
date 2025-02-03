@@ -36,7 +36,7 @@ public class EventSenderService : BackgroundService
                 _logger.LogError($"Error sending request: {ex.Message}");
             }
 
-            await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
+            await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
         }
     }
 }
