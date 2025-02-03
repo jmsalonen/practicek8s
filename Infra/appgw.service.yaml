@@ -7,6 +7,6 @@ spec:
     app: appgw
   ports:
     - name: http
-      port: 8080
-      targetPort: 8080
+      port: 443
+      targetPort: 443
   type: LoadBalancer
