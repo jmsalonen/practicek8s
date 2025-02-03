@@ -18,7 +18,7 @@ spec:
         - name: nginx
           image: jmsalonen/appgw:latest
           ports:
-            - containerPort: 8080
+            - containerPort: 443
           resources:
             requests:
               cpu: 1m
@@ -29,21 +29,21 @@ spec:
           startupProbe:
             httpGet:
               path: /health
-              port: 8080
+              port: 443
             failureThreshold: 3
             initialDelaySeconds: 5
             periodSeconds: 5
           readinessProbe:
             httpGet:
               path: /health
-              port: 8080
+              port: 443
             failureThreshold: 3
             initialDelaySeconds: 3
             periodSeconds: 3
           livenessProbe:
             httpGet:
               path: /health
-              port: 8080
+              port: 443
             failureThreshold: 5
             initialDelaySeconds: 3
             periodSeconds: 3

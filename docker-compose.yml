@@ -77,7 +77,7 @@ services:
       dockerfile: Dockerfile
     container_name: appgw
     ports:
-      - "80:80"
+      - "443:443"
 
 volumes:
   timescaledb_data:
