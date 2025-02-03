@@ -1,3 +1,5 @@
+# Deploy to Azure
+
 ```bash
 # login to az
 az login
@@ -19,6 +21,10 @@ az aks get-credentials --resource-group rg-practicek8s-temp-westeu-1 --name aks-
 
 # test kubectl
 kubectl get all -A
+
+# make sure kubectl is configured to use the right cluster
+kubectl config get-contexts
+kubectl config use-context aks-practicek8s-temp-westeu-1
 
 # create kubernetes resources
 kubectl apply -f deviceeventhandler.deployment.yaml
