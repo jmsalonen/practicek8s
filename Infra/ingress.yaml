@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.azure.com/tls-cert-keyvault-uri: https://practicek8skeyvault.vault.azure.net/certificates/practicek8-cert
+  name: practice-ingress
+spec:
+  ingressClassName: webapprouting.kubernetes.azure.com
+  rules:
+    - host: practicek8s.westeurope.cloudapp.azure.com
+      http:
+        paths:
+          - path: /api/DeviceEventHandler/
+            backend:
+              service:
+                name: deviceeventhandler
+                port:
+                  number: 5002
+            pathType: Prefix
+    - host: practicek8s.westeurope.cloudapp.azure.com
+      http:
+        paths:
+          - path: /api
+            backend:
+              service:
+                name: backend
+                port:
+                  number: 5001
+            pathType: Prefix
+  tls:
+    - hosts:
+        - practicek8s.westeurope.cloudapp.azure.com
+      secretName: keyvault-practice-ingress
