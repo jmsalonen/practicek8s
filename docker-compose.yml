@@ -1,9 +1,9 @@
 # Docker Compose file for localhost development
 
 services:
-  timescaledb:
+  postgresdb:
     image: timescale/timescaledb-ha:pg14-latest
-    container_name: timescaledb
+    container_name: postgresdb
     ports:
       - "5432:5432"
     environment:
@@ -13,33 +13,33 @@ services:
       - timescaledb_data:/var/lib/postgresql/data
       - ./init_databases.sql:/docker-entrypoint-initdb.d/10_init_databases.sql
       - ./global_database.sql:/docker-entrypoint-initdb.d/20_global_database.sql
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+    # healthcheck:
+    #   test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 5
 
-  keycloak:
+  keycloakauth:
     image: quay.io/keycloak/keycloak:24.0.4
-    container_name: keycloak
+    container_name: keycloakauth
     ports:
       - "8080:8080"
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
       KC_DB: postgres
-      KC_DB_URL_HOST: timescaledb
+      KC_DB_URL_HOST: postgresdb
       KC_DB_URL_DATABASE: keycloak
       KC_DB_USERNAME: keycloak
       KC_DB_PASSWORD: 1234
     depends_on:
-      - timescaledb
+      - postgresdb
     command: [ "start-dev" ]
-    healthcheck:
-      test: [ "CMD-SHELL", "curl -f http://localhost:8080/realms/master || exit 1" ]
-      interval: 5s
-      timeout: 5s
-      retries: 30
+    # healthcheck:
+    #   test: [ "CMD-SHELL", "curl -f http://localhost:8080/realms/master || exit 1" ]
+    #   interval: 5s
+    #   timeout: 5s
+    #   retries: 30
 
   backend:
     build:
@@ -51,12 +51,12 @@ services:
     environment:
       # ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: http://*:5001
-      KeyCloak__api_url: "http://keycloak:8080/"
+      KeyCloak__api_url: "http://keycloakauth:8080/"
       KeyCloak__admin_base: "/admin/realms"
-      KeyCloak__url: "keycloak:8080"
+      KeyCloak__url: "keycloakauth:8080"
       realms: "customer1"
-      database__realm_url: "Host=timescaledb:5432;User Id=postgres;Password=password"
-      database__global_url: "Host=timescaledb:5432;User Id=postgres;Password=password;Database=global"
+      database__realm_url: "Host=postgresdb:5432;User Id=postgres;Password=password"
+      database__global_url: "Host=postgresdb:5432;User Id=postgres;Password=password;Database=global"
       eventHandler__api_url: "http://deviceeventhandler:5002/api/DeviceEventHandler/event"
 
   deviceeventhandler:
@@ -77,6 +77,7 @@ services:
       dockerfile: Dockerfile
     container_name: appgw
     ports:
+      - "80:80"
       - "443:443"
 
 volumes:
