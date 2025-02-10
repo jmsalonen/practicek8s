@@ -27,4 +27,4 @@ CMD ["nginx", "-g", "daemon off;"]
 
 
 #docker build -t frontend .
-#docker run -p 80:80 frontend
+#docker run -p 3000:3000 frontend
