@@ -1,7 +1,7 @@
 import Keycloak from "keycloak-js";
 
 const keycloakConfig = {
-  url: "http://localhost/",
+  url: "https://localhost/",
   realm: "TestRealm",
   clientId: "test-client",
 };

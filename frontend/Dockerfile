@@ -18,6 +18,10 @@ WORKDIR /etc/nginx
 
 COPY nginx.conf .
 
+# # certs
+# COPY ./frontend/frontend.cert.pem /etc/nginx/certs/
+# COPY ./frontend/frontend.key.pem /etc/nginx/certs/
+
 # Copy the built React app into the Nginx image
 COPY --from=build /app/build /usr/share/nginx/html
 
