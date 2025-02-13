@@ -1,7 +1,7 @@
 import Keycloak from "keycloak-js";
 
 const keycloakConfig = {
-  url: "https://localhost/",
+  url: "https://practicek8s.westeurope.cloudapp.azure.com/",
   realm: "TestRealm",
   clientId: "test-client",
 };

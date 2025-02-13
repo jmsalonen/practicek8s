@@ -51,11 +51,11 @@ else
     
     # Generate Frontend CSR
     openssl req -new -key "${CERTS_DIR}/frontend.key.pem" -out "${CERTS_DIR}/frontend.csr.pem" \
-    -subj "/C=US/ST=State/L=City/O=Organization/OU=OrgUnit/CN=localhost"
+    -subj "/C=US/ST=State/L=City/O=Organization/OU=OrgUnit/CN=practicek8s.westeurope.cloudapp.azure.com"
     
     # Create Frontend certificate signed by CA
     openssl x509 -req -in "${CERTS_DIR}/frontend.csr.pem" -CA "${CERTS_DIR}/ca.cert.pem" -CAkey "${CERTS_DIR}/ca.key.pem" -CAcreateserial \
-    -out "${CERTS_DIR}/frontend.cert.pem" -days 365 -sha256 -extfile <(printf "subjectAltName=DNS:localhost")
+    -out "${CERTS_DIR}/frontend.cert.pem" -days 365 -sha256 -extfile <(printf "subjectAltName=DNS:practicek8s.westeurope.cloudapp.azure.com")
     
     echo "Frontend Certificate and Key generated at ${CERTS_DIR}"
 fi
@@ -73,11 +73,11 @@ else
     
     # Generate Backend CSR
     openssl req -new -key "${CERTS_DIR}/backend.key.pem" -out "${CERTS_DIR}/backend.csr.pem" \
-    -subj "/C=US/ST=State/L=City/O=Organization/OU=OrgUnit/CN=localhost"
+    -subj "/C=US/ST=State/L=City/O=Organization/OU=OrgUnit/CN=practicek8s.westeurope.cloudapp.azure.com"
     
     # Create Backend certificate signed by CA
     openssl x509 -req -in "${CERTS_DIR}/backend.csr.pem" -CA "${CERTS_DIR}/ca.cert.pem" -CAkey "${CERTS_DIR}/ca.key.pem" -CAcreateserial \
-    -out "${CERTS_DIR}/backend.cert.pem" -days 365 -sha256 -extfile <(printf "subjectAltName=DNS:localhost")
+    -out "${CERTS_DIR}/backend.cert.pem" -days 365 -sha256 -extfile <(printf "subjectAltName=DNS:practicek8s.westeurope.cloudapp.azure.com")
     
     echo "Backend Certificate and Key generated at ${CERTS_DIR}"
 fi
@@ -95,11 +95,11 @@ else
     
     # Generate Keycloak CSR
     openssl req -new -key "${CERTS_DIR}/keycloak.key.pem" -out "${CERTS_DIR}/keycloak.csr.pem" \
-    -subj "/C=US/ST=State/L=City/O=Organization/OU=OrgUnit/CN=localhost"
+    -subj "/C=US/ST=State/L=City/O=Organization/OU=OrgUnit/CN=practicek8s.westeurope.cloudapp.azure.com"
     
     # Create Keycloak certificate signed by CA
     openssl x509 -req -in "${CERTS_DIR}/keycloak.csr.pem" -CA "${CERTS_DIR}/ca.cert.pem" -CAkey "${CERTS_DIR}/ca.key.pem" -CAcreateserial \
-    -out "${CERTS_DIR}/keycloak.cert.pem" -days 365 -sha256 -extfile <(printf "subjectAltName=DNS:localhost")
+    -out "${CERTS_DIR}/keycloak.cert.pem" -days 365 -sha256 -extfile <(printf "subjectAltName=DNS:practicek8s.westeurope.cloudapp.azure.com")
     
     echo "Keycloak Certificate and Key generated at ${CERTS_DIR}"
     

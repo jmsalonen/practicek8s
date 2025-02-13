@@ -3,6 +3,15 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.azure.com/tls-cert-keyvault-uri: https://practicek8skeyvault.vault.azure.net/certificates/practicek8-cert
+    # nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/proxy-buffering: "on"
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-http-version: "2.0"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
+    nginx.ingress.kubernetes.io/large-client-header-buffers: "8 32k"
   name: practice-ingress
 spec:
   ingressClassName: webapprouting.kubernetes.azure.com
@@ -17,15 +26,54 @@ spec:
                 port:
                   number: 5002
             pathType: Prefix
-    - host: practicek8s.westeurope.cloudapp.azure.com
-      http:
-        paths:
           - path: /api
             backend:
               service:
                 name: backend
                 port:
                   number: 5001
+            pathType: Prefix
+          - path: /realms
+            backend:
+              service:
+                name: keycloakauth
+                port:
+                  number: 8080
+            pathType: Prefix
+          # - path: /admin
+          #   backend:
+          #     service:
+          #       name: keycloakauth
+          #       port:
+          #         number: 8443
+          #   pathType: Prefix
+          - path: /resources
+            backend:
+              service:
+                name: keycloakauth
+                port:
+                  number: 8080
+            pathType: Prefix
+          - path: /postgresdb
+            backend:
+              service:
+                name: postgresdb
+                port:
+                  number: 5432
+            pathType: Prefix
+          # - path: /
+          #   backend:
+          #     service:
+          #       name: keycloakauth
+          #       port:
+          #         number: 8443
+          #   pathType: Prefix
+          - path: /
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 3000
             pathType: Prefix
   tls:
     - hosts:

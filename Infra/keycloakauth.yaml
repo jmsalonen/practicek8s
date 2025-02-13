@@ -1,0 +1,40 @@
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloakauth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloakauth
+  template:
+    metadata:
+      labels:
+        app: keycloakauth
+    spec:
+      containers:
+        - name: keycloakauth
+          image: jmsalonen/keycloakauth:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8443
+            - containerPort: 8080
+
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloakauth
+spec:
+  selector:
+    app: keycloakauth
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+    - name: https
+      port: 8443
+      targetPort: 8443
+  type: ClusterIP

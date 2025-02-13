@@ -76,3 +76,10 @@ az keyvault certificate show --vault-name practicek8skeyvault --name practicek8-
 ## update and apply ingress.yaml
 kubectl apply -f ingress.yaml
 ```
+
+
+cert
+```bash
+openssl req -x509 -newkey rsa:2048 -nodes -keyout tls.key -out tls.crt -days 365 -subj "/C=US/ST=State/L=Locality/O=Organization/CN=practicek8s.westeurope.cloudapp.azure.com"
+
+kubectl create secret tls practicek8s-tls --key tls.key --cert tls.crt
